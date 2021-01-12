@@ -44,6 +44,19 @@ app.post("/deploy", (req, res) => {
         err,
         stderr
       );
+      transporter
+        .sendMail({
+          from: "anas.allahham@itland-sy.com", // sender address
+          to: "anoslaham@gmail.com", // list of receivers
+          subject: "server publish status ✔", // Subject line
+          text: "Hello world?", // plain text body
+          html: `<h1>publish successfull</h1><h3>the request</h3><p>${JSON.stringify(
+            req.body
+          )}</p><h3>the result</h3><p>${stderr + err + data}</p>`, // html body
+        })
+        .then(() => {
+          console.log("email sent");
+        });
     }
   );
   // exec(shellCommand, function (error, stdout, stderr) {
