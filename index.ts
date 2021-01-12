@@ -1,6 +1,7 @@
 const express = require("express");
 const exec = require("child_process").exec;
 const nodemailer = require("nodemailer");
+const cmd = require("node-cmd");
 const app = express();
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -29,43 +30,54 @@ app.post("/deploy", (req, res) => {
     status: `Beginning deploy script on ${scriptName}`,
   });
   // Execute our shell script
-  exec(shellCommand, function (error, stdout, stderr) {
-    console.log(stdout); // feedback
-    if (stderr) console.log("stderr: " + stderr);
-    if (error) {
-      error.status = 500;
-      transporter
-        .sendMail({
-          from: "anas.allahham@itland-sy.com", // sender address
-          to: "anoslaham@gmail.com", // list of receivers
-          subject: "server publish status ✔", // Subject line
-          text: "Hello world?", // plain text body
-          html: `<h1>encounterd an error</h1><h3>the request</h3><p>${JSON.stringify(
-            req.body
-          )}</p><h3>the error</h3><p>${error} ${stderr}</p>`, // html body
-        })
-        .then(() => {
-          console.log("email sent");
-        });
-      console.log(error);
-    } else {
-      req.deployResponse = stdout;
-      transporter
-        .sendMail({
-          from: "anas.allahham@itland-sy.com", // sender address
-          to: "anoslaham@gmail.com", // list of receivers
-          subject: "server publish status ✔", // Subject line
-          text: "Hello world?", // plain text body
-          html: `<h1>publish successfull</h1><h3>the request</h3><p>${JSON.stringify(
-            req.body
-          )}</p><h3>the result</h3><p>${stdout}</p>`, // html body
-        })
-        .then(() => {
-          console.log("email sent");
-        });
+  cmd.get(
+    "echo " +
+      "ITL@nd@Server@RED@2021" +
+      " | /usr/bin/sudo " +
+      shellCommand +
+      " --key " +
+      "itland",
+    function (data) {
+      console.log("The result of the command:" + data);
     }
-    console.log("Deploy script complete.");
-  });
+  );
+  // exec(shellCommand, function (error, stdout, stderr) {
+  //   console.log(stdout); // feedback
+  //   if (stderr) console.log("stderr: " + stderr);
+  //   if (error) {
+  //     error.status = 500;
+  //     transporter
+  //       .sendMail({
+  //         from: "anas.allahham@itland-sy.com", // sender address
+  //         to: "anoslaham@gmail.com", // list of receivers
+  //         subject: "server publish status ✔", // Subject line
+  //         text: "Hello world?", // plain text body
+  //         html: `<h1>encounterd an error</h1><h3>the request</h3><p>${JSON.stringify(
+  //           req.body
+  //         )}</p><h3>the error</h3><p>${error} ${stderr}</p>`, // html body
+  //       })
+  //       .then(() => {
+  //         console.log("email sent");
+  //       });
+  //     console.log(error);
+  //   } else {
+  //     req.deployResponse = stdout;
+  //     transporter
+  //       .sendMail({
+  //         from: "anas.allahham@itland-sy.com", // sender address
+  //         to: "anoslaham@gmail.com", // list of receivers
+  //         subject: "server publish status ✔", // Subject line
+  //         text: "Hello world?", // plain text body
+  //         html: `<h1>publish successfull</h1><h3>the request</h3><p>${JSON.stringify(
+  //           req.body
+  //         )}</p><h3>the result</h3><p>${stdout}</p>`, // html body
+  //       })
+  //       .then(() => {
+  //         console.log("email sent");
+  //       });
+  //   }
+  //   console.log("Deploy script complete.");
+  // });
 });
 // error handler
 
