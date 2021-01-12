@@ -30,15 +30,20 @@ app.post("/deploy", (req, res) => {
     status: `Beginning deploy script on ${scriptName}`,
   });
   // Execute our shell script
-  cmd.get(
+  cmd.run(
     "echo " +
       "ITL@nd@Server@RED@2021" +
       " | /usr/bin/sudo -S -k " +
       shellCommand +
       " --key " +
       "itland",
-    function (data) {
-      console.log("The result of the command:" + data);
+    function (err, data, stderr) {
+      console.log(
+        "examples dir now contains the example file along with : ",
+        data,
+        err,
+        stderr
+      );
     }
   );
   // exec(shellCommand, function (error, stdout, stderr) {
