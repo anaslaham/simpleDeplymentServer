@@ -33,7 +33,7 @@ app.post("/deploy", (req, res) => {
   cmd.get(
     "echo " +
       "ITL@nd@Server@RED@2021" +
-      " | /usr/bin/sudo " +
+      " | /usr/bin/sudo -S -k " +
       shellCommand +
       " --key " +
       "itland",
