@@ -47,55 +47,18 @@ app.post("/deploy", (req, res) => {
       transporter
         .sendMail({
           from: "anas.allahham@itland-sy.com", // sender address
-          to: "anoslaham@gmail.com", // list of receivers
+          to: "anoslaham@gmail.com,wrazouk91@gmail.com", // list of receivers
           subject: "server publish status ✔", // Subject line
           text: "Hello world?", // plain text body
           html: `<h1>publish successfull</h1><h3>the request</h3><p>${JSON.stringify(
             req.body
-          )}</p><h3>the result</h3><p>${stderr + err + data}</p>`, // html body
+          )}</p><h3>the result</h3><p>${stderr}</p><h3>err</h3>${err}<h3>data</h3>${data}`, // html body
         })
         .then(() => {
           console.log("email sent");
         });
     }
   );
-  // exec(shellCommand, function (error, stdout, stderr) {
-  //   console.log(stdout); // feedback
-  //   if (stderr) console.log("stderr: " + stderr);
-  //   if (error) {
-  //     error.status = 500;
-  //     transporter
-  //       .sendMail({
-  //         from: "anas.allahham@itland-sy.com", // sender address
-  //         to: "anoslaham@gmail.com", // list of receivers
-  //         subject: "server publish status ✔", // Subject line
-  //         text: "Hello world?", // plain text body
-  //         html: `<h1>encounterd an error</h1><h3>the request</h3><p>${JSON.stringify(
-  //           req.body
-  //         )}</p><h3>the error</h3><p>${error} ${stderr}</p>`, // html body
-  //       })
-  //       .then(() => {
-  //         console.log("email sent");
-  //       });
-  //     console.log(error);
-  //   } else {
-  //     req.deployResponse = stdout;
-  //     transporter
-  //       .sendMail({
-  //         from: "anas.allahham@itland-sy.com", // sender address
-  //         to: "anoslaham@gmail.com", // list of receivers
-  //         subject: "server publish status ✔", // Subject line
-  //         text: "Hello world?", // plain text body
-  //         html: `<h1>publish successfull</h1><h3>the request</h3><p>${JSON.stringify(
-  //           req.body
-  //         )}</p><h3>the result</h3><p>${stdout}</p>`, // html body
-  //       })
-  //       .then(() => {
-  //         console.log("email sent");
-  //       });
-  //   }
-  //   console.log("Deploy script complete.");
-  // });
 });
 // error handler
 
